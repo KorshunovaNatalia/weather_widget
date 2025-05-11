@@ -3,15 +3,21 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
+
 .weather-widget {
     width: 90%;
     max-width: 900px;
-    margin: 20px auto;
+    margin: auto;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    display: block;
 }
 
 .city-header {
@@ -36,7 +42,7 @@ body {
 .city-input-container button {
     padding: 8px 12px;
     border: none;
-    background-color: #5cb85c;
+    background-color: #255dbd;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -80,48 +86,50 @@ body {
 
 .hourly-forecast {
     display: flex;
-    justify-content: flex-start; /* Выравнивание по левому краю */
-    overflow-x: auto;         /* Добавляем горизонтальную прокрутку, если контент не помещается */
+    justify-content: flex-start;
+    overflow-x: auto;
     width: fit-content;
 }
 
 .hourly-forecast-item {
-    flex: 0 0 auto;             /* Чтобы элементы не растягивались */
-    width: fit-content; /* Автоматическая ширина по контенту */
+    flex: 0 0 auto;
+    width: fit-content;
     text-align: center;
-    margin: 0 5px;             /* Небольшие отступы между элементами */
+    margin: 0 5px;
     white-space: nowrap;
 }
 
-#ten-day-forecast {
+#five-day-forecast {
     width: 100%;
     overflow-x: auto; 
     white-space: nowrap;
 }
 
-.ten-day-container {
+.five-day-container {
     display: flex;
     overflow-x: auto; 
     white-space: nowrap;
 }
-.ten-day-item {
+.five-day-item {
     flex: 0 0 auto;
-    width: fit-content; /* Автоматическая ширина по контенту */
+    width: auto;
     margin: 5px;
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
     background-color: #fff;
     border-radius: 8px;
-    white-space: nowrap; /* Предотвращает перенос текста */
+    white-space: nowrap;
 }
 
-.ten-day-item p {
+.five-day-item p {
     margin: 5px 0;
     color: #555;
+    width: 120px;
 }
 
-.ten-day-item img {
-    width: 50px;
+.five-day-item img {
+    width: 80px;
     height: auto;
 }
+
