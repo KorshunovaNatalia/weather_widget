@@ -1,5 +1,5 @@
 body {
-    background-color: #f0f8ff;
+    background-color: #ffffff;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -10,52 +10,107 @@ body {
 }
 
 .weather-widget {
-    width: 90%;
+    width: 92%;
     max-width: 900px;
     margin: auto;
-    background-color: #fff;
+    background-color: #E4EBF3;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 40px;
     display: block;
 }
 
+hr {
+    background-color: #ddd; 
+    height: 1px;  
+    border: none;
+}
+
+.city-header-data{
+    text-align: left;
+}
+
+.city-header-data p{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+#city-name{
+    font-weight: 600;
+    font-size: 19px;
+    color:#193140;
+}
+
 .city-header {
+    display: flex;
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 40px;
+    color: #193140;
+    justify-content: space-between;
+    height: 50px;
 }
 
 .city-input-container {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     margin-top: 10px;
 }
 
 .city-input-container input {
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-right: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.city-input-container input:hover {
+    border-color: #999;
+}
+
+.city-input-container input:focus {
+    border-color: #597994; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
 }
 
 .city-input-container button {
-    padding: 8px 12px;
+    padding: 10px 20px;
     border: none;
-    background-color: #255dbd;
+    background-color: #527C8C;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.city-input-container button:hover {
+    background-color: #396070; 
+}
+
+.city-input-container button:active {
+    background-color: #294651;
+    transition: none; 
+}
+
+.city-input-container button:not(:active):hover {
+    background-color: #396070;
+}
+
+.city-input-container button:not(:hover):not(:active) {
+    background-color: #527C8C;
 }
 
 .weather-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 
 .weather-block {
-    background-color: #f9f9f9;
+    background-color: #f1faff;
     border-radius: 8px;
     padding: 15px;
     text-align: center;
@@ -64,18 +119,19 @@ body {
 }
 
 .weather-block h3 {
-    color: #555;
-    margin-bottom: 10px;
+    color: #193140;
+    margin-bottom: 5px;
 }
 
 .current-temp {
     font-size: 2.5em;
-    color: #e44d26;
+    color: #527C8C;
     margin-bottom: 10px;
 }
 
 .weather-icon img {
-    max-width: 80px;
+    max-width: 40px;
+    padding: 10px;
     height: auto;
 }
 
@@ -90,6 +146,12 @@ body {
     justify-content: flex-start;
     overflow-x: auto;
     width: fit-content;
+}
+
+.hourly-forecast img{
+    max-width: 40px;
+    padding: 10px;
+    height: auto;
 }
 
 .hourly-forecast-item {
@@ -113,7 +175,6 @@ body {
     flex: 1 1 18%;
     margin: 5px;
     padding: 10px;
-    border: 1px solid #ddd;
     text-align: center;
     background-color: #fff;
     border-radius: 8px;
@@ -128,12 +189,54 @@ body {
 }
 
 .five-day-item img {
-    width: 80px;
+    width: 40px;
     height: auto;
+    padding: 10px;
 }
+
+
 
 @media (max-width: 600px) {
     .five-day-item {
         flex: 1 1 30%; /* немного шире на маленьких экранах */
     }
+}
+
+
+
+.bot-message {
+    display: flex;
+    align-items: flex-start;
+    background-color: #B2CED9;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 100%;
+    margin: 10px 0;
+    border-top: 1px solid #eee;
+}
+
+.bot-icon {
+    flex-shrink: 0;
+    margin-right: 10px;    
+
+
+}
+
+.bot-icon img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.bot-text {
+    background-color: #ffffff; 
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    max-width: auto;
+    word-wrap: break-word;
+    font-style: oblique;
+    color: #527C8C;
 }

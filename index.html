@@ -3,20 +3,27 @@
 <head>
   <title>Виджет погоды</title>
   <link rel="stylesheet" href="style.css">
+  <script src="//api.bitrix24.com/api/v1/"></script>
 </head>
 <body>
   <div class="weather-widget">
     <div class="city-header">
-      <h2 id="city-name"></h2>
+      <div class="city-header-data">
+        <p id="current-date"></p>
+        <p id="city-name"></p>
+      </div>
+
       <div class="city-input-container">
         <input type="text" id="city-input" placeholder="Введите город">
+        <div id="suggestions"></div>
         <button id="update-city">Обновить</button>
       </div>
     </div>
 
     <div class="weather-container">
       <div class="weather-block" id="current-weather">
-        <h3>Сейчас</h3>
+        <h2>Сейчас</h2>
+        <hr>
         <div class="weather-icon" id="current-icon"></div>
         <div class="current-temp"><span id="current-temp-value"></span>°C</div>
         <div class="weather-details">
@@ -27,14 +34,16 @@
       </div>
 
       <div class="weather-block" id="today-weather">
-        <h3>Сегодня</h3>
+        <h2>Сегодня</h2>
+        <hr>
         <div class="hourly-forecast" id="hourly-forecast-today">
           <!-- Здесь будет почасовой прогноз на сегодня -->
         </div>
       </div>
 
       <div class="weather-block" id="tomorrow-weather">
-        <h3>Завтра</h3>
+        <h2>Завтра</h2>
+        <hr>
         <div class="hourly-forecast" id="hourly-forecast-tomorrow">
           <!-- Здесь будет почасовой прогноз на завтра -->
         </div>
@@ -42,12 +51,28 @@
     </div>
 
     <div class="weather-block" id="five-day-forecast">
-      <h3>На 5 дней</h3>
+      <h2>На 5 дней</h2>
+      <hr>
       <div class="five-day-container" id="five-day-container">
-        <!-- Здесь будет прогноз на 10 дней -->
+        <!-- Здесь будет прогноз на 5 дней -->
       </div>
     </div>
+
+    <div class="bot-message">
+        <div class="bot-icon">
+            <img src="images/bot.png" alt="Бот">
+        </div>
+        <div class="bot-text" id="assistant-advice">
+        </div>
+    </div>
+      <button id="back-to-bitrix">Вернуться в Битрикс24</button>
+      <script>
+        document.getElementById('back-to-bitrix').addEventListener('click', function() {
+            BX24.closeApplication();
+        });
+    </script>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
