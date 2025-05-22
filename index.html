@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Виджет погоды</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Виджет погоды</h2>
+    <div id="weather-widget-content">
+       Здесь будет содержимое виджета погоды   
+    <div class="weather-widget">
+    <div class="city-header">
+      <h2 id="city-name"></h2>
+      <div class="city-input-container">
+        <input type="text" id="city-input" placeholder="Введите город">
+        <button id="update-city">Обновить</button>
+      </div>
+    </div>
+
+    <div class="weather-container">
+      <div class="weather-block" id="current-weather">
+        <h3>Сейчас</h3>
+        <div class="weather-icon" id="current-icon"></div>
+        <div class="current-temp"><span id="current-temp-value"></span>°C</div>
+        <div class="weather-details">
+          <p id="current-wind"></p>
+          <p id="current-pressure"></p>
+          <p id="current-humidity"></p>
+        </div>
+      </div>
+
+      <div class="weather-block" id="today-weather">
+        <h3>Сегодня</h3>
+        <div class="hourly-forecast" id="hourly-forecast-today">
+          <!-- Здесь будет почасовой прогноз на сегодня -->
+        </div>
+      </div>
+
+      <div class="weather-block" id="tomorrow-weather">
+        <h3>Завтра</h3>
+        <div class="hourly-forecast" id="hourly-forecast-tomorrow">
+          <!-- Здесь будет почасовой прогноз на завтра -->
+        </div>
+      </div>
+    </div>
+
+    <div class="weather-block" id="five-day-forecast">
+      <h3>На 5 дней</h3>
+      <div class="five-day-container" id="five-day-container">
+        <!-- Здесь будет прогноз на 10 дней -->
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+  
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+<!-- Понял, ты хочешь, чтобы при клике на ссылку виджеты открывались не в новой вкладке или странице, а поверх текущего интерфейса Битрикс24, как всплывающее окно или модальное окно (modal window). Вот как этого можно достичь:
+
+1. Использование Модального Окна (Modal Window):
+
+Это самый распространенный подход.
+
+HTML (в коде виджета): Создай структуру модального окна. Она должна быть изначально скрыта.
+html
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Виджет погоды</h2>
+    <div id="weather-widget-content">
+       Здесь будет содержимое виджета погоды 
+    </div>
+  </div>
+</div>
+CSS (в коде виджета): Стилизуй модальное окно.
+css
+
+.modal {
+  display: none; /* Скрываем окно по умолчанию */
+  position: fixed; /* Фиксированное позиционирование */
+  z-index: 1; /* Поверх всего */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Включаем прокрутку, если контент не помещается */
+  background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Центрируем по вертикали и горизонтали */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Ширина окна */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+JavaScript (в коде виджета): Добавь JavaScript, чтобы открывать и закрывать модальное окно.
+javascript
+
+// Получаем элементы
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("myLink"); // Замени "myLink" на ID твоей ссылки
+var span = document.getElementsByClassName("close")[0];
+
+// Открываем модальное окно при клике на ссылку
+btn.onclick = function() {
+  modal.style.display = "block";
+  // Здесь можно загрузить содержимое виджета в #weather-widget-content
+  // Например, с помощью AJAX-запроса
+};
+
+// Закрываем модальное окно при клике на крестик
+span.onclick = function() {
+  modal.style.display = "none";
+};
+
+// Закрываем модальное окно при клике вне окна
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+Интеграция в Битрикс24:
+
+Установи этот HTML, CSS и JavaScript код в твой виджет.
+Убедись, что ссылка, которая должна открывать виджет, имеет id="myLink" (или измени JavaScript код, чтобы он соответствовал твоему ID). --!>
