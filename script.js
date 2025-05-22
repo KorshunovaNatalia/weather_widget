@@ -15,6 +15,33 @@ const tenDayContainerElement = document.getElementById('five-day-container');
 let city = "Moscow"; // Начальный город
 
 
+
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("https://korshunovanatalia.github.io/weather_widget/"); // Замени "myLink" на ID твоей ссылки
+var span = document.getElementsByClassName("close")[0];
+
+// Открываем модальное окно при клике на ссылку
+btn.onclick = function() {
+  modal.style.display = "block";
+  // Здесь можно загрузить содержимое виджета в #weather-widget-content
+  // Например, с помощью AJAX-запроса
+};
+
+// Закрываем модальное окно при клике на крестик
+span.onclick = function() {
+  modal.style.display = "none";
+};
+
+// Закрываем модальное окно при клике вне окна
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+
+
+
 // Функция для получения погоды
 function getWeather() {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`)
@@ -58,17 +85,28 @@ function displayCurrentWeather(data) {
 
 // Функция для отображения прогноза
 function displayForecast(forecastList) {
+    const today = new Date(Date.now());
+    const todayDate = today.toLocaleDateString('en-CA');
     hourlyForecastTodayElement.innerHTML = "";
     hourlyForecastTomorrowElement.innerHTML = "";
     tenDayContainerElement.innerHTML = "";
-    const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    const todayDate = today.toISOString().slice(0, 10);
     const tomorrowDate = tomorrow.toISOString().slice(0, 10);
-    
+
     // Прогноз на сегодня
-    const todayForecastFiltered = forecastList.filter(forecast => forecast.dt_txt.includes(todayDate));
+    const targetTimes = ["00:00", "06:00", "12:00", "18:00", "21:00"];
+    const todayForecastFiltered = forecastList.filter(forecast => {
+        const date = forecast.dt_txt.split(" ")[0];
+        const time = forecast.dt_txt.split(" ")[1].slice(0, 5);
+        console.log(`Date: ${date}, Time: ${time}`); // Отладка
+        return date === todayDate && targetTimes.includes(time);
+    });
+
+    console.log(forecastList); // Отладка
+    console.log("Текущая дата:", todayDate);
+    console.log("Прогноз:", forecastList);
+
     todayForecastFiltered.forEach(forecast => {
         const time = forecast.dt_txt.split(" ")[1].slice(0, 5);
         const iconCode = forecast.weather[0].icon;
@@ -86,9 +124,8 @@ function displayForecast(forecastList) {
 
     // Прогноз на завтра
     const tomorrowForecastFiltered = forecastList.filter(forecast => {
-        const date = forecast.dt_txt.split(" ")[0];
-        const time = forecast.dt_txt.split(" ")[1].slice(0, 5);
-        return date === tomorrowDate && ["00:00", "06:00", "12:00", "18:00", "21:00"].includes(time);
+        const [date, time] = forecast.dt_txt.split(" ");
+        return date === tomorrowDate && targetTimes.includes(time.slice(0, 5));
     });
 
     tomorrowForecastFiltered.forEach(forecast => {
@@ -106,7 +143,7 @@ function displayForecast(forecastList) {
         hourlyForecastTomorrowElement.appendChild(forecastItem);
     });
 
-    // Прогноз на 10 дней
+    // Прогноз на 5 дней
     const dailyForecasts = {};
     forecastList.forEach(forecast => {
         const date = forecast.dt_txt.split(" ")[0];
@@ -126,7 +163,7 @@ function displayForecast(forecastList) {
         dailyForecasts[date].maxTemp = Math.max(dailyForecasts[date].maxTemp, forecast.main.temp_max);
     });
 
-    Object.keys(dailyForecasts).slice(0, 5).forEach(date => { // Убедитесь, что отображается 10 дней
+    Object.keys(dailyForecasts).slice(1, 6).forEach(date => {
         const dayForecast = dailyForecasts[date];
         const tenDayItem = document.createElement('div');
         tenDayItem.classList.add('five-day-item');
