@@ -5,7 +5,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="weather-widget">
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Виджет погоды</h2>
+    <div id="weather-widget-content">
+       Здесь будет содержимое виджета погоды   
+    <div class="weather-widget">
     <div class="city-header">
       <h2 id="city-name"></h2>
       <div class="city-input-container">
@@ -48,6 +54,11 @@
       </div>
     </div>
   </div>
+    </div>
+  </div>
+</div>
+  
+
   <script src="script.js"></script>
 </body>
 </html>
