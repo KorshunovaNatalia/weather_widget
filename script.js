@@ -16,29 +16,6 @@ let city = "Moscow"; // Начальный город
 
 
 
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("https://korshunovanatalia.github.io/weather_widget/"); // Замени "myLink" на ID твоей ссылки
-var span = document.getElementsByClassName("close")[0];
-
-// Открываем модальное окно при клике на ссылку
-btn.onclick = function() {
-  modal.style.display = "block";
-  // Здесь можно загрузить содержимое виджета в #weather-widget-content
-  // Например, с помощью AJAX-запроса
-};
-
-// Закрываем модальное окно при клике на крестик
-span.onclick = function() {
-  modal.style.display = "none";
-};
-
-// Закрываем модальное окно при клике вне окна
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-};
-
 
 
 
