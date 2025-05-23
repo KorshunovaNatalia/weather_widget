@@ -1,4 +1,4 @@
-const apiKey = "5344d5a5b6c0d1b3a62fba6b28d66969"; // Замените на ваш API key
+const apiKey = "5344d5a5b6c0d1b3a62fba6b28d66969"; 
 const cityNameElement = document.getElementById('city-name');
 const cityInputElement = document.getElementById('city-input');
 
@@ -27,42 +27,33 @@ function formatDate(date) {
       return date.toLocaleDateString('ru-RU', options);
 }
 
-    // Отображаем дату при загрузке страницы
-    window.onload = function() {
-      const today = new Date();
-      const formattedDate = formatDate(today);
-      currentDateElement.textContent = formattedDate;
+// Отображаем дату при загрузке страницы
+window.onload = function() {
+    const today = new Date();
+    const formattedDate = formatDate(today);
+    currentDateElement.textContent = formattedDate;
 }
 
 function getCustomIconPath(weatherCode, description) {
   switch (weatherCode) {
-    case '01d':
-        return 'images/Sunny.svg';
-    case '01n':
-        return 'images/Clear-night.svg';
-    case '02d':
-        return 'images/Partly-cloudy.svg';
-    case '02n':
-        return 'images/Partly-cloudy-night.svg';
-    case '03d':
-    case '03n':
-    case '04d':
-    case '04n':
-        return 'images/Cloudy.svg';
-    case '09d':
-    case '09n':
-    case '10d':
-    case '10n':
-        return 'images/rain.svg';
-    case '11d':
-    case '11n':
-        return 'images/thunderstorm.svg';
-    case '13d':
-    case '13n':
-        return 'images/Snow.svg';
-    case '50d':
-    case '50n':
-        return 'images/mist.svg';
+    case '01d':        return 'images/Sunny.svg';
+    case '01n':        return 'images/Clear-night.svg';
+    case '02d':        return 'images/Partly-cloudy.svg';
+    case '02n':        return 'images/Partly-cloudy-night.svg';
+    case '03d':        return 'images/Cloudy.svg';
+    case '03n':        return 'images/Cloudy.svg';
+    case '04d':        return 'images/Cloudy.svg';
+    case '04n':        return 'images/Cloudy.svg';
+    case '09d':        return 'images/rain.svg';
+    case '09n':        return 'images/rain.svg';
+    case '10d':        return 'images/small_rain.svg';
+    case '10n':        return 'images/small_rain.svg';
+    case '11d':        return 'images/thunderstorm.svg';
+    case '11n':        return 'images/thunderstorm.svg';
+    case '13d':        return 'images/Snow.svg';
+    case '13n':        return 'images/Snow.svg';
+    case '50d':        return 'images/mist.svg';
+    case '50n':        return 'images/mist.svg';
     default:
   }
 }
@@ -110,52 +101,75 @@ function displayCurrentWeather(data) {
     setAssistantAdvice(data.weather[0].description, temperature);
 }
 
-// Функция для отображения прогноза
 function displayForecast(forecastList) {
-    const today = new Date(Date.now());
-    const todayDate = today.toLocaleDateString('en-CA');
+    const now = new Date();
+    const todayDate = now.toLocaleDateString('en-CA');
     hourlyForecastTodayElement.innerHTML = "";
     hourlyForecastTomorrowElement.innerHTML = "";
     tenDayContainerElement.innerHTML = "";
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 2);
-    const tomorrowDate = tomorrow.toISOString().slice(0, 10);
 
-    // Прогноз на сегодня
-    const targetTimes = ["00:00", "06:00", "12:00", "18:00", "21:00"];
-    const todayForecastFiltered = forecastList.filter(forecast => {
-        const date = forecast.dt_txt.split(" ")[0];
-        const time = forecast.dt_txt.split(" ")[1].slice(0, 5);
-        console.log(`Date: ${date}, Time: ${time}`); // Отладка
-        return date === todayDate && targetTimes.includes(time);
+    // Все возможные временные слоты
+    const targetTimes = ["09:00", "12:00", "15:00", "18:00", "21:00"];
+
+    // Собираем реальные прогнозы на сегодня
+    const todayForecasts = {};
+    forecastList.forEach(forecast => {
+        const [date, time] = forecast.dt_txt.split(" ");
+        if (date === todayDate && targetTimes.includes(time.slice(0, 5))) {
+            todayForecasts[time.slice(0, 5)] = {
+                temp: Math.round(forecast.main.temp),
+                icon: getCustomIconPath(forecast.weather[0].icon, forecast.weather[0].description),
+                time: time.slice(0, 5)
+            };
+        }
     });
 
-    console.log(forecastList); // Отладка
-    console.log("Текущая дата:", todayDate);
-    console.log("Прогноз:", forecastList);
+    // Находим последнюю актуальную температуру (для заглушек)
+    let lastValidTemp = null;
+    targetTimes.forEach(time => {
+        if (todayForecasts[time] && new Date(`${todayDate}T${time}:00`) <= now) {
+            lastValidTemp = todayForecasts[time].temp;
+        }
+    });
 
-    todayForecastFiltered.forEach(forecast => {
-        const time = forecast.dt_txt.split(" ")[1].slice(0, 5);
-        const iconPath = getCustomIconPath(forecast.weather[0].icon, forecast.weather[0].description);
-        const temp = Math.round(forecast.main.temp);
+    // Рендерим все слоты для "Сегодня"
+    targetTimes.forEach(time => {
+        const forecast = todayForecasts[time];
+        const slotTime = new Date(`${todayDate}T${time}:00`);
+        const isPast = slotTime <= now;
 
         const forecastItem = document.createElement('div');
         forecastItem.classList.add('forecast-item');
-        forecastItem.innerHTML = `
-            <p>${time}</p>
-            <img src="${iconPath}" alt="Погода">
-            <p>${temp}°C</p>
-        `;
+        if (isPast) forecastItem.classList.add('past-forecast');
+
+        // Если есть данные — показываем, иначе заглушку
+        if (forecast) {
+            forecastItem.innerHTML = `
+                <p>${time}</p>
+                <img src="${forecast.icon}" alt="Погода">
+                <h4>${forecast.temp}°C</h4>
+            `;
+        } else {
+            const temp = lastValidTemp !== null ? lastValidTemp - 1 : '--';
+            forecastItem.innerHTML = `
+                <p>${time}</p>
+                <img src="images/Zaglushka.svg" alt="Нет данных">
+                <h4>${temp}°C</h4>
+            `;
+        }
         hourlyForecastTodayElement.appendChild(forecastItem);
     });
 
-    // Прогноз на завтра
-    const tomorrowForecastFiltered = forecastList.filter(forecast => {
+    // Прогноз на завтра (без изменений)
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    const tomorrowDate = tomorrow.toISOString().slice(0, 10);
+    const tomorrowForecast = forecastList.filter(forecast => {
         const [date, time] = forecast.dt_txt.split(" ");
         return date === tomorrowDate && targetTimes.includes(time.slice(0, 5));
     });
 
-    tomorrowForecastFiltered.forEach(forecast => {
+    tomorrowForecast.forEach(forecast => {
         const time = forecast.dt_txt.split(" ")[1].slice(0, 5);
         const iconPath = getCustomIconPath(forecast.weather[0].icon, forecast.weather[0].description);
         const temp = Math.round(forecast.main.temp);
@@ -165,12 +179,12 @@ function displayForecast(forecastList) {
         forecastItem.innerHTML = `
             <p>${time}</p>
             <img src="${iconPath}" alt="Погода">
-            <p>${temp}°C</p>
+            <h4>${temp}°C</h4>
         `;
         hourlyForecastTomorrowElement.appendChild(forecastItem);
     });
 
-    // Прогноз на 5 дней
+    // Прогноз на 5 дней  
     const dailyForecasts = {};
     forecastList.forEach(forecast => {
         const date = forecast.dt_txt.split(" ")[0];
@@ -183,7 +197,9 @@ function displayForecast(forecastList) {
                 minTemp: Infinity,
                 maxTemp: -Infinity,
                 icon: forecast.weather[0].icon,
-                dayName: `${dayName}, ${dayNumber}`
+                description: forecast.weather[0].description,
+                dayName: `${dayName}, ${dayNumber}`,
+                date: date
             };
         }
         dailyForecasts[date].minTemp = Math.min(dailyForecasts[date].minTemp, forecast.main.temp_min);
@@ -192,11 +208,19 @@ function displayForecast(forecastList) {
 
     Object.keys(dailyForecasts).slice(1, 6).forEach(date => {
         const dayForecast = dailyForecasts[date];
+        const forecastDate = new Date(date);
         const tenDayItem = document.createElement('div');
         tenDayItem.classList.add('five-day-item');
+        
+        // Добавляем класс 'past-forecast', если дата прогноза уже прошла
+        if (forecastDate < new Date(now.toLocaleDateString('en-CA'))) {
+            tenDayItem.classList.add('past-forecast');
+        }
+        
         tenDayItem.innerHTML = `
-            <p>${dayForecast.dayName}</p>
-        <img src="${getCustomIconPath(dayForecast.icon, dayForecast.description)}" alt="Погода">            <p>Мин: ${Math.round(dayForecast.minTemp)}°C</p>
+            <h4>${dayForecast.dayName}</h4>
+            <img src="${getCustomIconPath(dayForecast.icon, dayForecast.description)}" alt="Погода">           
+            <p>Мин: ${Math.round(dayForecast.minTemp)}°C</p>
             <p>Макс: ${Math.round(dayForecast.maxTemp)}°C</p>
         `;
         tenDayContainerElement.appendChild(tenDayItem);

@@ -3,19 +3,20 @@
 <head>
   <title>Виджет погоды</title>
   <link rel="stylesheet" href="style.css">
-  <script src="//api.bitrix24.com/api/v1/"></script>
 </head>
 <body>
   <div class="weather-widget">
     <div class="city-header">
       <div class="city-header-data">
         <p id="current-date"></p>
-        <p id="city-name"></p>
+        <div class="city-block">
+          <img src="images\icons8-маркер.gif">
+          <p id="city-name"></p>
+        </div>
       </div>
 
       <div class="city-input-container">
         <input type="text" id="city-input" placeholder="Введите город">
-        <div id="suggestions"></div>
         <button id="update-city">Обновить</button>
       </div>
     </div>
@@ -65,12 +66,6 @@
         <div class="bot-text" id="assistant-advice">
         </div>
     </div>
-      <button id="back-to-bitrix">Вернуться в Битрикс24</button>
-      <script>
-        document.getElementById('back-to-bitrix').addEventListener('click', function() {
-            BX24.closeApplication();
-        });
-    </script>
   </div>
 
   <script src="script.js"></script>
