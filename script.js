@@ -373,7 +373,15 @@ function setAssistantAdvice(weatherDescription, temperature) {
     }
     assistantAdviceElement.textContent = advice;
 }
+// При инициализации виджета
+history.pushState({widget: true}, 'Виджет', window.location.href);
 
+// Обработка кнопки "Назад"
+window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.widget) {
+        BX24.closeApplication(); // Закрыть виджет
+    }
+});
 // Начальная загрузка погоды
 getLocation();
 
