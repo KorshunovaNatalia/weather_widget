@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Виджет погоды</title>
+  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="weather-widget">
+    <div class="city-header">
+      <div class="city-header-data">
+        <p id="current-date"></p>
+        <div class="city-block">
+          <img src="images\icons8-маркер.gif">
+          <p id="city-name"></p>
+        </div>
+      </div>
+
+      <div class="city-input-container">
+        <div class="select-city">
+          <input type="text" id="city-input" placeholder="Введите город">
+          <div class="dropdown-arrow"><i class="fas fa-chevron-down"></i></div>
+          <div class="city-dropdown">
+            <div class="dropdown-header">Популярные города</div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-content">
+              <div class="city-option" data-value="Волгоград">Волгоград</div>
+              <div class="city-option" data-value="Воронеж">Воронеж</div>
+              <div class="city-option" data-value="Екатеринбург">Екатеринбург</div>
+              <div class="city-option" data-value="Казань">Казань</div>
+              <div class="city-option" data-value="Красноярск">Красноярск</div>
+              <div class="city-option" data-value="Москва">Москва</div>
+              <div class="city-option" data-value="Нижний Новгород">Нижний Новгород</div>
+              <div class="city-option" data-value="Новосибирск">Новосибирск</div>
+              <div class="city-option" data-value="Омск">Омск</div>
+              <div class="city-option" data-value="Пермь">Пермь</div>
+              <div class="city-option" data-value="Ростов-на-Дону">Ростов-на-Дону</div>
+              <div class="city-option" data-value="Самара">Самара</div>
+              <div class="city-option" data-value="Санкт-Петербург">Санкт-Петербург</div>
+              <div class="city-option" data-value="Тверь">Тверь</div>
+              <div class="city-option" data-value="Уфа">Уфа</div>
+              <div class="city-option" data-value="Челябинск">Челябинск</div>
+            </div>
+          </div>
+        </div>
+        <button id="update-city">Обновить</button>
+      </div>
+    </div>
+
+    <div class="weather-container">
+      <div class="weather-block" id="current-weather">
+        <h2>Сейчас</h2>
+        <hr>
+        <div class="weather-icon" id="current-icon"></div>
+        <div class="current-temp"><span id="current-temp-value"></span>°C</div>
+        <div class="weather-details">
+          <p id="current-wind"></p>
+          <p id="current-pressure"></p>
+          <p id="current-humidity"></p>
+        </div>
+      </div>
+
+      <div class="weather-block" id="today-weather">
+        <h2>Сегодня</h2>
+        <hr>
+        <div class="hourly-forecast" id="hourly-forecast-today">
+          <!-- Здесь будет почасовой прогноз на сегодня -->
+        </div>
+      </div>
+
+      <div class="weather-block" id="tomorrow-weather">
+        <h2>Завтра</h2>
+        <hr>
+        <div class="hourly-forecast" id="hourly-forecast-tomorrow">
+          <!-- Здесь будет почасовой прогноз на завтра -->
+        </div>
+      </div>
+    </div>
+
+    <div class="weather-block" id="five-day-forecast">
+      <h2>На 5 дней</h2>
+      <hr>
+      <div class="five-day-container" id="five-day-container">
+        <!-- Здесь будет прогноз на 5 дней -->
+      </div>
+    </div>
+
+    <div class="bot-message">
+        <div class="bot-icon">
+            <img src="images/bot.png" alt="Бот">
+        </div>
+        <div class="bot-text" id="assistant-advice">
+        </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
